@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { CartProvider } from "@/context/CartContext";
+import { AssistantDemo } from "@/components/AssistantDemo";
 import { Navbar } from "@/components/Navbar";
 import { HeroSection } from "@/components/HeroSection";
 import { AboutSection } from "@/components/AboutSection";
@@ -17,48 +18,89 @@ import { PizzaCustomizerModal } from "@/components/PizzaCustomizerModal";
 import { TableReservationModal } from "@/components/TableReservationModal";
 import { ToastContainer } from "@/components/Toast";
 import { ChatbotWidget } from "@/components/ChatbotWidget";
+import { Bot, UtensilsCrossed, Sparkles } from "lucide-react";
 
 export default function Home() {
+  const [activeView, setActiveView] = useState<"chatbot" | "restaurant">(
+    "chatbot"
+  );
+
   return (
     <CartProvider>
       <div className="relative min-h-screen bg-[#0F0E0D] text-[#F3ECE0]">
-        {/* Navigation */}
-        <Navbar />
+        {/* Top View Mode Switcher Header */}
+        <div className="sticky top-0 z-50 bg-[#161413]/95 backdrop-blur-md border-b border-white/10 px-4 py-3">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <span className="text-xl">🍕</span>
+              <div>
+                <h2 className="font-serif font-bold text-sm sm:text-base text-white leading-tight">
+                  Cheesy Crust Pizza &bull; Customer Assistant
+                </h2>
+                <p className="text-[11px] text-amber-400 font-medium">
+                  Next.js AI Assistant (Role + Store Info + Guardrails)
+                </p>
+              </div>
+            </div>
 
-        {/* Main Content Sections */}
-        <main>
-          {/* 1. Hero Section */}
-          <HeroSection />
+            {/* Toggle Switcher */}
+            <div className="flex items-center bg-[#1F1D1B] p-1 rounded-xl border border-white/10 text-xs font-semibold">
+              <button
+                onClick={() => setActiveView("chatbot")}
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg transition-all cursor-pointer ${
+                  activeView === "chatbot"
+                    ? "bg-[#C92A2A] text-white shadow-md font-bold"
+                    : "text-stone-400 hover:text-white"
+                }`}
+              >
+                <Bot className="w-4 h-4" />
+                <span>AI Chatbot (Assignment Mode)</span>
+              </button>
 
-          {/* 2. About Us Section */}
-          <AboutSection />
+              <button
+                onClick={() => setActiveView("restaurant")}
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg transition-all cursor-pointer ${
+                  activeView === "restaurant"
+                    ? "bg-[#C92A2A] text-white shadow-md font-bold"
+                    : "text-stone-400 hover:text-white"
+                }`}
+              >
+                <UtensilsCrossed className="w-4 h-4" />
+                <span>Full Restaurant Website</span>
+              </button>
+            </div>
+          </div>
+        </div>
 
-          {/* 3. Our Menu Section */}
-          <MenuSection />
+        {/* View 1: Primary Assignment Chatbot Mode (Option 1: Cheesy Crust Pizza) */}
+        {activeView === "chatbot" && (
+          <main className="min-h-screen pt-4 pb-16">
+            <AssistantDemo />
+          </main>
+        )}
 
-          {/* 4. Special Offers Section */}
-          <SpecialOffersSection />
-
-          {/* 5. Why Choose Us Section */}
-          <WhyChooseUsSection />
-
-          {/* 6. Customer Reviews Section */}
-          <ReviewsSection />
-
-          {/* 7. Contact & Opening Hours */}
-          <ContactSection />
-        </main>
-
-        {/* Footer */}
-        <Footer />
-
-        {/* Interactive Modals, Drawers & AI Chatbot */}
-        <CartDrawer />
-        <CheckoutModal />
-        <PizzaCustomizerModal />
-        <TableReservationModal />
-        <ToastContainer />
-        <ChatbotWidget />
+        {/* View 2: Full Restaurant Experience */}
+        {activeView === "restaurant" && (
+          <>
+            <Navbar />
+            <main>
+              <HeroSection />
+              <AboutSection />
+              <MenuSection />
+              <SpecialOffersSection />
+              <WhyChooseUsSection />
+              <ReviewsSection />
+              <ContactSection />
+            </main>
+            <Footer />
+            <CartDrawer />
+            <CheckoutModal />
+            <PizzaCustomizerModal />
+            <TableReservationModal />
+            <ToastContainer />
+            <ChatbotWidget />
+          </>
+        )}
       </div>
     </CartProvider>
   );
