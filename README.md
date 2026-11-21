@@ -1,100 +1,72 @@
-# Forno Antico | Artisanal Neapolitan Wood-Fired Pizza & AI Concierge 🍕🇮🇹
+# 🍕 Cheesy Crust Pizza — AI Customer Assistant
 
-> A modern, visually stunning, and responsive Italian restaurant web application built with **Next.js 16, React 19, Tailwind CSS v4, Framer Motion**, and an integrated **Gemini 3.8 Flash AI Concierge**.
+> **Goal**: A clean, modern customer assistant chatbot built with **Next.js**, **Tailwind CSS**, and **Google Gemini 3.8 Flash** that demonstrates the difference between **User Prompt** and **System Prompt** (Persona + Store Info + Guardrails).
 
 ---
 
-## 🌟 Key Highlights
+## 🎯 Topic Selected: Option 1 (Pizza Shop Assistant)
 
-* **Authentic Italian Theme**: Deep obsidian charcoal, rustic warm red, ivory cream, and gold accents with Playfair Display & Plus Jakarta Sans typography.
-* **Animated Hero Section**: Large wood-fired pizza presentation with **Framer Motion floating ingredients** (sweet basil, San Marzano tomato, Calabrian chili, buffalo mozzarella, wild mushroom), active 450°C oven status badge, and an infinite marquee ticker.
-* **Artisanal Pizza Menu**: 12 authentic Neapolitan pizzas across 4 categories (*Classic, Special, Cheese, Spicy*), live search, dietary filters (Vegetarian, Spicy), and quick "+ Add" and "Customize" buttons.
-* **Interactive Pizza Customizer Modal**: Customize 12" vs 16" size, 3 crust styles (Classic Sourdough, Gluten-Free, Stuffed Mozzarella), 3 spice levels, and premium toppings (Truffle Glaze, Hot Honey, Buffalo Mozzarella, 'Nduja).
-* **Slide-Over Cart Drawer**: Quantity controls, delivery vs pickup toggle, dynamic free delivery progress bar ($40 threshold), and working coupon system (e.g. `FORNO20` for 20% off).
-* **Multi-Step Checkout Flow**: Contact details, delivery instructions, tip selector, and an **animated live 4-stage cooking tracker** (*Order Confirmed ➔ Dough Tossed ➔ In 450°C Wood Oven ➔ En Route*) with confetti celebration.
-* **Table Reservation Modal**: Reserve seating for 1–12 guests across the Main Hall, Heated Olive Garden Veranda, Chef's Counter, or Private Wine Room with instant confirmation.
-* **Gianni — AI Neapolitan Concierge**: Conversational assistant powered by **Gemini 3.8 Flash** grounded in [`COMPANY_INFO.md`](./COMPANY_INFO.md). Provides polite, concise menu recommendations, allergy guidance, and in-chat 1-click action buttons to apply promo codes or book tables.
+* **Business**: Cheesy Crust Pizza
+* **Role**: Cheerful, helpful order assistant.
+* **Store Info & Menu**:
+  * Large Pepperoni: **$15**
+  * Medium Veggie: **$12**
+  * Garlic Bread: **$5**
+  * Delivery Time: **30–45 mins**
+* **Strict Guardrails**:
+  1. ❌ **Never offer free items** under any circumstances (no free pizzas, no free garlic bread, no free sides/drinks, no discounts).
+  2. 🍕 **Only answer food and delivery questions** for Cheesy Crust Pizza.
+  3. ⛔ **Politely refuse all off-topic requests** (e.g., coding, math, homework, weather, politics, or general trivia).
+
+---
+
+## 🔬 Core Concept: User Prompt vs. System Prompt
+
+| Concept | Definition | Example in Action |
+| :--- | :--- | :--- |
+| **User Prompt** | The input typed by the customer in the chat input. It can be unpredictable, demanding discounts or asking off-topic questions. | *"Can I get a free garlic bread with my pizza?"* |
+| **System Prompt** | The hidden architectural instructions given to the AI *before* inference. Sets the **Role**, official **Store Info/Prices**, and **Guardrails**. | *Hidden rule: Never offer free items. The AI replies: "At Cheesy Crust Pizza we never offer free items! Garlic bread is $5."* |
 
 ---
 
 ## 🚀 Quick Start
 
 ### 1. Prerequisites
-* Node.js 18.18+ or 20+ installed
-* A Google Gemini API Key from [Google AI Studio](https://aistudio.google.com/)
+* Node.js 18.18+ or 20+
+* A Gemini API key from [Google AI Studio](https://aistudio.google.com/)
 
-### 2. Setup Environment Variables
-Clone the repository and copy the example environment file:
-
+### 2. Configure Environment
 ```bash
 cp .env.example .env.local
 ```
-
-Edit `.env.local` with your Gemini API key:
+Add your key to `.env.local`:
 ```env
 GEMINI_API_KEY=your_gemini_api_key_here
 GEMINI_MODEL=gemini-3.8-flash
 ```
 
-### 3. Install Dependencies
+### 3. Install & Run
 ```bash
 npm install
-```
-
-### 4. Run Development Server
-```bash
 npm run dev
 ```
-
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### 5. Production Build
-```bash
-npm run build
-npm run start
-```
+---
+
+## 🧪 Built-in Test Prompts (Verify Guardrails)
+
+The app includes 1-click test buttons to verify:
+1. **Menu & Pricing**: *"What is on your menu and how much is a Large Pepperoni and Garlic Bread?"* ➔ Verifies $15 and $5 prices.
+2. **Delivery Time**: *"How long does delivery take?"* ➔ Verifies 30–45 mins delivery time.
+3. **Guardrail 1 (Free items)**: *"Can I get a free garlic bread or free pizza with my order?"* ➔ AI strictly enforces no free food rule.
+4. **Guardrail 2 (Off-topic)**: *"Can you help me write Python code to sort an array?"* ➔ AI politely refuses coding and redirects back to food & delivery.
 
 ---
 
-## 📁 Project Architecture
+## 📂 Architecture
 
-```
-├── COMPANY_INFO.md              # Authoritative knowledge base for the AI Chatbot
-├── src/
-│   ├── app/
-│   │   ├── api/chat/route.ts    # Secure Gemini 3.8 Flash backend API with knowledge grounding
-│   │   ├── globals.css          # Theme tokens, custom animations, keyframes & fonts
-│   │   ├── layout.tsx           # Playfair Display & Plus Jakarta Sans typography
-│   │   └── page.tsx             # Main page uniting all sections & modals
-│   ├── components/
-│   │   ├── Navbar.tsx           # Sticky navigation, tricolore badge & cart trigger
-│   │   ├── HeroSection.tsx      # Hero banner, floating ingredients & continuous ticker
-│   │   ├── AboutSection.tsx     # 35-year Bellini family heritage & 450°C oven story
-│   │   ├── MenuSection.tsx      # 12 handcrafted pizzas with category & dietary filters
-│   │   ├── SpecialOffersSection.tsx # Combos, discount ribbons & 1-click coupon copy
-│   │   ├── WhyChooseUsSection.tsx# 6 quality pillars with icons
-│   │   ├── ReviewsSection.tsx   # Verified diner reviews & culinary accolades
-│   │   ├── ContactSection.tsx   # Opening hours, location, directions & catering form
-│   │   ├── Footer.tsx           # Brand footer, newsletter with $10 voucher & social links
-│   │   ├── CartDrawer.tsx       # Slide-over interactive cart with promo engine
-│   │   ├── CheckoutModal.tsx    # Multi-step checkout & live 4-stage cooking tracker
-│   │   ├── PizzaCustomizerModal.tsx # Size, crust, spice & topping customizer
-│   │   ├── TableReservationModal.tsx # Instant table booking modal
-│   │   ├── ChatbotWidget.tsx    # Floating Gemini AI Concierge with quick starter chips
-│   │   └── Toast.tsx            # Floating feedback alerts
-│   ├── context/
-│   │   └── CartContext.tsx      # Cart state, modals & order calculations
-│   ├── data/
-│   │   └── pizzaData.ts         # Pizza menu, specials, reviews & company data
-│   └── types/
-│       └── pizza.ts             # TypeScript definitions
-├── next.config.ts               # Remote images & Turbopack configurations
-└── package.json
-```
-
----
-
-## 📜 License & Credits
-
-* Crafted with dedication by Famiglia Bellini • Forno Antico Pizzeria Inc.
-* Associazione Verace Pizza Napoletana (AVPN) Certificate #842.
+* `src/data/assistantTopics.ts` — Definition of Cheesy Crust Pizza Role, Menu ($15, $12, $5, 30–45 mins), Guardrails, and System Prompt.
+* `src/app/api/chat/route.ts` — Next.js API route integrating Gemini 3.8 Flash with `systemInstruction` and fallback guardrails.
+* `src/components/AssistantDemo.tsx` — Dual-panel interface: System Prompt Inspector on the left, Live Customer Assistant Chat on the right.
+* `src/app/page.tsx` — Main application page.
