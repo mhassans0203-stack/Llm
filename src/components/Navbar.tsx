@@ -32,6 +32,7 @@ export const Navbar: React.FC = () => {
     { name: "About Heritage", href: "#about" },
     { name: "Our Menu", href: "#menu" },
     { name: "Special Offers", href: "#offers" },
+    { name: "AI Assistant (Option 1)", href: "#ai-assistant" },
     { name: "Why Forno", href: "#why-us" },
     { name: "Reviews", href: "#reviews" },
     { name: "Contact & Hours", href: "#contact" },
@@ -70,17 +71,29 @@ export const Navbar: React.FC = () => {
           </a>
 
           {/* Desktop Nav Links */}
-          <nav className="hidden lg:flex items-center gap-7">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-xs font-semibold text-stone-300 hover:text-white transition-colors uppercase tracking-widest relative py-1 group"
-              >
-                <span>{link.name}</span>
-                <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#C92A2A] group-hover:w-full transition-all duration-200" />
-              </a>
-            ))}
+          <nav className="hidden lg:flex items-center gap-6">
+            {navLinks.map((link) => {
+              const isAI = link.href === "#ai-assistant";
+              return (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className={`text-xs uppercase tracking-widest relative py-1 transition-all flex items-center gap-1.5 ${
+                    isAI
+                      ? "text-amber-300 font-bold px-2.5 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 hover:bg-amber-500/25 shadow-sm shadow-amber-500/20"
+                      : "text-stone-300 hover:text-white font-semibold group"
+                  }`}
+                >
+                  {isAI && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  )}
+                  <span>{link.name}</span>
+                  {!isAI && (
+                    <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#C92A2A] group-hover:w-full transition-all duration-200" />
+                  )}
+                </a>
+              );
+            })}
           </nav>
 
           {/* Action CTAs */}
@@ -172,17 +185,29 @@ export const Navbar: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="py-6 flex flex-col gap-4">
-                  {navLinks.map((link) => (
-                    <a
-                      key={link.name}
-                      href={link.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="text-sm font-semibold text-stone-300 hover:text-white py-2 border-b border-white/5 uppercase tracking-wider transition-colors"
-                    >
-                      {link.name}
-                    </a>
-                  ))}
+                <div className="py-6 flex flex-col gap-3">
+                  {navLinks.map((link) => {
+                    const isAI = link.href === "#ai-assistant";
+                    return (
+                      <a
+                        key={link.name}
+                        href={link.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`text-sm py-2 px-3 rounded-xl uppercase tracking-wider transition-colors flex items-center justify-between ${
+                          isAI
+                            ? "text-amber-300 font-bold bg-amber-500/15 border border-amber-500/30"
+                            : "text-stone-300 hover:text-white font-semibold border-b border-white/5"
+                        }`}
+                      >
+                        <span>{link.name}</span>
+                        {isAI && (
+                          <span className="text-[10px] bg-amber-400 text-black px-2 py-0.5 rounded font-extrabold">
+                            Option 1
+                          </span>
+                        )}
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
 
